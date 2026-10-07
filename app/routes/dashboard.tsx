@@ -1,3 +1,7 @@
+import { useUser } from "~/context/UserContext";
+
 export default function Dashboard() {
-  return <h1>Tableau de bord</h1>;
+  const { profile } = useUser();
+
+  return <h1>Bonjour {profile.firstName}</h1>;
 }
