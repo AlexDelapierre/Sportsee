@@ -13,9 +13,16 @@ export async function clientLoader() {
 
   try {
     return await getUserInfo(token);
-  } catch {
-    removeCookieToken();
-    throw redirect("/login");
+  } catch (error) {
+    if (
+      error instanceof Response &&
+      (error.status === 401 || error.status === 403)
+    ) {
+      removeCookieToken();
+      throw redirect("/login");
+    }
+
+    throw error;
   }
 }
 
