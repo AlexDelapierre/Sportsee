@@ -1,4 +1,5 @@
-import { Outlet, redirect, useNavigate } from "react-router";
+import { Outlet, redirect } from "react-router";
+import { Nav } from "~/components/Nav";
 import { UserContext } from "~/context/UserContext";
 import { getUserInfo } from "~/services/api";
 import { getCookieToken, removeCookieToken } from "~/utils/token";
@@ -19,16 +20,9 @@ export async function clientLoader() {
 }
 
 export default function Protected({ loaderData }: Route.ComponentProps) {
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    removeCookieToken();
-    navigate("/login");
-  }
-
   return (
     <UserContext value={loaderData}>
-      <button onClick={handleLogout}>Se déconnecter</button>
+      <Nav />
       <Outlet />
     </UserContext>
   );
