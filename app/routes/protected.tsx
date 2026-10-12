@@ -8,7 +8,7 @@ import type { Route } from "./+types/protected";
 export async function clientLoader() {
   const token = getCookieToken();
   if (!token) {
-    throw redirect("/login");
+    throw redirect("/");
   }
 
   try {
@@ -16,10 +16,11 @@ export async function clientLoader() {
   } catch (error) {
     if (
       error instanceof Response &&
+      // backend: 401 = no token, 403 = invalid or expired token
       (error.status === 401 || error.status === 403)
     ) {
       removeCookieToken();
-      throw redirect("/login");
+      throw redirect("/");
     }
 
     throw error;

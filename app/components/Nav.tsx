@@ -6,7 +6,7 @@ export function Nav() {
 
   function handleLogout() {
     removeCookieToken();
-    navigate("/login");
+    navigate("/");
   }
 
   return (
