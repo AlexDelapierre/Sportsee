@@ -2,7 +2,7 @@ import { MOCK_CREDENTIALS, MOCK_USER_INFO } from "~/mocks/api";
 import type { LoginResponse, UserInfoResponse } from "~/types/api";
 
 const API_URL = "http://localhost:8000";
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
+const USE_MOCK = false;
 
 async function request<T>(
   path: string,
