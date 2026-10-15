@@ -1,5 +1,6 @@
 import { Outlet, redirect } from "react-router";
-import { Nav } from "~/components/Nav";
+import { Footer } from "~/components/Footer";
+import { Header } from "~/components/Header";
 import { UserContext } from "~/context/UserContext";
 import { getUserInfo } from "~/services/api";
 import { getCookieToken, removeCookieToken } from "~/utils/token";
@@ -30,8 +31,17 @@ export async function clientLoader() {
 export default function Protected({ loaderData }: Route.ComponentProps) {
   return (
     <UserContext value={loaderData}>
-      <Nav />
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <div className="flex-1 px-10 pt-[35px] pb-20">
+          <div className="mx-auto max-w-[1140px]">
+            <Header />
+            <main className="mt-[108px]">
+              <Outlet />
+            </main>
+          </div>
+        </div>
+        <Footer />
+      </div>
     </UserContext>
   );
 }
