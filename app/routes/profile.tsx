@@ -1,19 +1,51 @@
+import { ProfileSummary } from "~/components/ProfileSummary";
+import { StatCard } from "~/components/StatCard";
 import { useUser } from "~/context/UserContext";
 
 export default function Profile() {
-  const { profile, statistics } = useUser();
+  const user = useUser();
 
   return (
-    <main>
-      <h1>
-        {profile.firstName} {profile.lastName}
-      </h1>
-      <p>Âge : {profile.age} ans</p>
-      <p>Taille : {profile.height} cm</p>
-      <p>Poids : {profile.weight} kg</p>
-      <p>Distance totale : {statistics.totalDistance} km</p>
-      <p>Sessions : {statistics.totalSessions}</p>
-      <p>Durée totale : {statistics.totalDuration} min</p>
-    </main>
+    <div className="flex gap-[57px]">
+      <div className="flex w-[508px] shrink-0 flex-col gap-4">
+        <section className="rounded-[10px] bg-white py-6 pr-[52px] pl-8 shadow-card">
+          <ProfileSummary />
+        </section>
+
+        <section className="rounded-[10px] bg-white px-7 pt-10 pb-[60px] shadow-card">
+          <h2 className="border-b border-light-grey pb-6 text-[22px] font-medium">
+            Votre profil
+          </h2>
+          <ul className="mt-8 flex flex-col gap-6 font-medium text-grey">
+            <li>Âge : {user.age}</li>
+            <li>Taille : {user.height}</li>
+            <li>Poids : {user.weight}kg</li>
+          </ul>
+        </section>
+      </div>
+
+      <section className="flex-1">
+        <h2 className="text-[22px] font-medium">Vos statistiques</h2>
+        <p className="text-sm text-grey">depuis le {user.memberSince}</p>
+
+        <div className="mt-[30px] grid grid-cols-2 gap-[19px]">
+          <StatCard
+            label="Temps total couru"
+            value={`${user.totalHours}h`}
+            unit={`${user.totalMinutes}min`}
+          />
+          <StatCard
+            label="Distance totale parcourue"
+            value={user.totalDistance}
+            unit="km"
+          />
+          <StatCard
+            label="Nombre de sessions"
+            value={user.totalSessions}
+            unit="sessions"
+          />
+        </div>
+      </section>
+    </div>
   );
 }
