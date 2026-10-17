@@ -1,21 +1,36 @@
 import type { ActivitySession } from "~/types/api";
+import { addDays, formatDayMonth, toApiDate } from "~/utils/dates";
 
-export interface ActivityChartPoint {
-  day: number;
+export interface WeekDistance {
+  week: string;
   distance: number;
-  duration: number;
-  caloriesBurned: number;
-  heartRateAvg: number;
+  period: string;
 }
 
-export function formatActivityForChart(
-  sessions: ActivitySession[]
-): ActivityChartPoint[] {
-  return sessions.map((session, index) => ({
-    day: index + 1,
-    distance: session.distance,
-    duration: session.duration,
-    caloriesBurned: session.caloriesBurned,
-    heartRateAvg: session.heartRate.average,
-  }));
+export function getWeeklyDistances(
+  sessions: ActivitySession[],
+  firstMonday: Date
+): WeekDistance[] {
+  const weeks: WeekDistance[] = [];
+
+  for (let i = 0; i < 4; i++) {
+    const monday = addDays(firstMonday, i * 7);
+    const sunday = addDays(monday, 6);
+    const weekSessions = sessions.filter(
+      (session) =>
+        session.date >= toApiDate(monday) && session.date <= toApiDate(sunday)
+    );
+    const distance = weekSessions.reduce(
+      (total, session) => total + session.distance,
+      0
+    );
+
+    weeks.push({
+      week: `S${i + 1}`,
+      distance: Math.round(distance * 10) / 10,
+      period: `${formatDayMonth(monday)} au ${formatDayMonth(sunday)}`,
+    });
+  }
+
+  return weeks;
 }
