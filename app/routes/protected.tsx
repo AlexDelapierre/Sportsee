@@ -3,6 +3,7 @@ import { Footer } from "~/components/Footer";
 import { Header } from "~/components/Header";
 import { UserContext } from "~/context/UserContext";
 import { getUserInfo } from "~/services/api";
+import { formatUserInfo } from "~/utils/formatUserInfo";
 import { getCookieToken, removeCookieToken } from "~/utils/token";
 import type { Route } from "./+types/protected";
 
@@ -13,7 +14,8 @@ export async function clientLoader() {
   }
 
   try {
-    return await getUserInfo(token);
+    const userInfo = await getUserInfo(token);
+    return formatUserInfo(userInfo);
   } catch (error) {
     if (
       error instanceof Response &&
