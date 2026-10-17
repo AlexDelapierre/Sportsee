@@ -1,5 +1,5 @@
-import { MOCK_CREDENTIALS, MOCK_USER_INFO } from "~/mocks/api";
-import type { LoginResponse, UserInfoResponse } from "~/types/api";
+import { MOCK_CREDENTIALS, MOCK_USER_ACTIVITY, MOCK_USER_INFO } from "~/mocks/api";
+import type { ActivitySession, LoginResponse, UserInfoResponse } from "~/types/api";
 
 const API_URL = "http://localhost:8000";
 const USE_MOCK = false;
@@ -54,6 +54,41 @@ export async function getUserInfo(token: string): Promise<UserInfoResponse> {
     response = await fetch(`${API_URL}/api/user-info`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+  } catch {
+    throw new Response(null, { status: 503 });
+  }
+
+  if (!response.ok) {
+    throw response;
+  }
+
+  return response.json();
+}
+
+export async function getUserActivity(
+  token: string,
+  startDate: string,
+  endDate: string
+): Promise<ActivitySession[]> {
+  if (USE_MOCK) {
+    const sessions = MOCK_USER_ACTIVITY[token];
+
+    if (!sessions) {
+      throw new Response(null, { status: 403 });
+    }
+
+    return sessions.filter(
+      (session) => session.date >= startDate && session.date <= endDate
+    );
+  }
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      `${API_URL}/api/user-activity?startWeek=${startDate}&endWeek=${endDate}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
   } catch {
     throw new Response(null, { status: 503 });
   }
