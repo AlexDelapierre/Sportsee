@@ -1,5 +1,6 @@
 import { ProfileSummary } from "~/components/ProfileSummary";
 import { useUser } from "~/context/UserContext";
+import { DistanceChart } from "~/components/charts/DistanceChart";
 
 export default function Dashboard() {
   const user = useUser();
@@ -22,6 +23,9 @@ export default function Dashboard() {
 
       <section>
         <h2 className="text-[22px] font-medium">Vos dernières performances</h2>
+        <div className="mt-8 grid grid-cols-[445px_1fr] gap-6">
+          <DistanceChart />
+        </div>
       </section>
 
       <section>
