@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import type { UserInfoResponse } from "~/types/api";
+import type { User } from "~/utils/formatUserInfo";
 
-export const UserContext = createContext<UserInfoResponse | null>(null);
+export const UserContext = createContext<User | null>(null);
 
 export function useUser() {
   const user = useContext(UserContext);

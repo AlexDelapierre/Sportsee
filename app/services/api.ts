@@ -4,28 +4,6 @@ import type { LoginResponse, UserInfoResponse } from "~/types/api";
 const API_URL = "http://localhost:8000";
 const USE_MOCK = false;
 
-async function request<T>(
-  path: string,
-  options?: RequestInit
-): Promise<T> {
-  let response: Response;
-
-  try {
-    response = await fetch(`${API_URL}${path}`, options);
-  } catch {
-    throw new Response(null, {
-      status: 503,
-      statusText: "Serveur indisponible",
-    });
-  }
-
-  if (!response.ok) {
-    throw response;
-  }
-
-  return response.json();
-}
-
 export async function login(
   username: string,
   password: string
@@ -40,11 +18,23 @@ export async function login(
     return { token: account.userId, userId: account.userId };
   }
 
-  return request("/api/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+  } catch {
+    throw new Response(null, { status: 503 });
+  }
+
+  if (!response.ok) {
+    throw response;
+  }
+
+  return response.json();
 }
 
 export async function getUserInfo(token: string): Promise<UserInfoResponse> {
@@ -58,7 +48,19 @@ export async function getUserInfo(token: string): Promise<UserInfoResponse> {
     return userInfo;
   }
 
-  return request("/api/user-info", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_URL}/api/user-info`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch {
+    throw new Response(null, { status: 503 });
+  }
+
+  if (!response.ok) {
+    throw response;
+  }
+
+  return response.json();
 }
