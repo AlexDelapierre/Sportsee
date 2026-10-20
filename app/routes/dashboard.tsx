@@ -1,6 +1,8 @@
 import { ProfileSummary } from "~/components/ProfileSummary";
 import { useUser } from "~/context/UserContext";
 import { DistanceChart } from "~/components/charts/DistanceChart";
+import { HeartRateChart } from "~/components/charts/HeartRateChart";
+import { ThisWeek } from "~/components/ThisWeek";
 
 export default function Dashboard() {
   const user = useUser();
@@ -25,12 +27,11 @@ export default function Dashboard() {
         <h2 className="text-[22px] font-medium">Vos dernières performances</h2>
         <div className="mt-8 grid grid-cols-[445px_1fr] gap-6">
           <DistanceChart />
+          <HeartRateChart />
         </div>
       </section>
 
-      <section>
-        <h2 className="text-[22px] font-medium">Cette semaine</h2>
-      </section>
+      <ThisWeek />
     </div>
   );
 }
