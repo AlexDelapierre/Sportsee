@@ -1,9 +1,20 @@
 import { ProfileSummary } from "~/components/ProfileSummary";
 import { StatCard } from "~/components/StatCard";
 import { useUser } from "~/context/UserContext";
+import { useUserActivity } from "~/hooks/useUserActivity";
+import { countDays, toApiDate } from "~/utils/dates";
 
 export default function Profile() {
   const user = useUser();
+  const today = toApiDate(new Date());
+  const { sessions, isLoading, error } = useUserActivity(user.createdAt, today);
+
+  const calories = sessions.reduce(
+    (total, session) => total + session.caloriesBurned,
+    0
+  );
+  const activeDays = new Set(sessions.map((session) => session.date)).size;
+  const restDays = countDays(user.createdAt, today) - activeDays;
 
   return (
     <div className="flex gap-[57px]">
@@ -35,9 +46,19 @@ export default function Profile() {
             unit={`${user.totalMinutes}min`}
           />
           <StatCard
+            label="Calories brûlées"
+            value={isLoading ? "..." : calories}
+            unit="cal"
+          />
+          <StatCard
             label="Distance totale parcourue"
             value={user.totalDistance}
             unit="km"
+          />
+          <StatCard
+            label="Nombre de jours de repos"
+            value={isLoading ? "..." : restDays}
+            unit="jours"
           />
           <StatCard
             label="Nombre de sessions"
@@ -45,6 +66,11 @@ export default function Profile() {
             unit="sessions"
           />
         </div>
+        {error && (
+          <p className="mt-4 text-sm text-secondary">
+            Impossible de charger les calories et les jours de repos.
+          </p>
+        )}
       </section>
     </div>
   );
