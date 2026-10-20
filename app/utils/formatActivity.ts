@@ -34,3 +34,29 @@ export function getWeeklyDistances(
 
   return weeks;
 }
+
+export interface DayHeartRate {
+  day: string;
+  min: number | null;
+  max: number | null;
+  average: number | null;
+}
+
+const DAY_LABELS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+
+export function getDailyHeartRates(
+  sessions: ActivitySession[],
+  monday: Date
+): DayHeartRate[] {
+  return DAY_LABELS.map((day, index) => {
+    const date = toApiDate(addDays(monday, index));
+    const session = sessions.find((session) => session.date === date);
+
+    return {
+      day,
+      min: session ? session.heartRate.min : null,
+      max: session ? session.heartRate.max : null,
+      average: session ? session.heartRate.average : null,
+    };
+  });
+}
