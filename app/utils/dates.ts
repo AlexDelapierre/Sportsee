@@ -23,3 +23,7 @@ export function formatDayMonth(date: Date) {
     .toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" })
     .replace("/", ".");
 }
+
+export function formatShortDate(date: Date) {
+  return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "long" });
+}
