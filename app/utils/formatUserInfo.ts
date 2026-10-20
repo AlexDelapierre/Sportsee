@@ -4,6 +4,7 @@ export interface User {
   firstName: string;
   lastName: string;
   profilePicture: string;
+  createdAt: string;
   memberSince: string;
   age: number;
   height: string;
@@ -22,6 +23,7 @@ export function formatUserInfo(userInfo: UserInfoResponse): User {
     firstName: userInfo.profile.firstName,
     lastName: userInfo.profile.lastName,
     profilePicture: userInfo.profile.profilePicture,
+    createdAt: userInfo.profile.createdAt,
     memberSince: new Date(userInfo.profile.createdAt).toLocaleDateString(
       "fr-FR",
       { day: "numeric", month: "long", year: "numeric" }
