@@ -1,3 +1,5 @@
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
 export function addDays(date: Date, days: number) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
@@ -25,5 +27,13 @@ export function formatDayMonth(date: Date) {
 }
 
 export function formatShortDate(date: Date) {
-  return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "long" });
+  return date
+    .toLocaleDateString("fr-FR", { day: "2-digit", month: "short" })
+    .replace(".", "");
+}
+
+export function countDays(startDate: string, endDate: string) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  return Math.round((end.getTime() - start.getTime()) / DAY_IN_MS) + 1;
 }
