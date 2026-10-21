@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 
+import { ErrorPage } from "~/components/ErrorPage";
 import type { Route } from "./+types/root";
 import "./app.css";
 
@@ -56,25 +57,20 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Erreur";
-    details =
-      error.status === 404
-        ? "La page demandée est introuvable."
-        : error.statusText || details;
+    if (error.status === 404) {
+      message = "404";
+      details = "La page demandée est introuvable.";
+    } else if (error.status === 503) {
+      message = "Serveur indisponible";
+      details = "Impossible de joindre le serveur, réessayez plus tard.";
+    } else {
+      message = "Erreur";
+      details = error.statusText || details;
+    }
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;
   }
 
-  return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
-  );
+  return <ErrorPage title={message} details={details} stack={stack} />;
 }
