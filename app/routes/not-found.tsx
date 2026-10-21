@@ -1,10 +1,5 @@
-import { Link } from "react-router";
+import { ErrorPage } from "~/components/ErrorPage";
 
 export default function NotFound() {
-  return (
-    <main>
-      <h1>Page introuvable</h1>
-      <Link to="/">Retour à l'accueil</Link>
-    </main>
-  );
+  return <ErrorPage title="404" details="La page demandée est introuvable." />;
 }
