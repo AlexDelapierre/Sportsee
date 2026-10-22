@@ -1,87 +1,50 @@
-# Welcome to React Router!
+# SportSee
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Dashboard to follow a user's running activity (sessions, distance, duration, calories). Built with React, React Router, TypeScript, Tailwind CSS and Recharts.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Prerequisites
 
-## Features
+- [Node.js](https://nodejs.org/) 22.22 or higher
+- The back end API: [P6JS](https://github.com/OpenClassrooms-Student-Center/P6JS/)
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Getting started
 
-## Getting Started
+### 1. Start the back end
 
-### Installation
+```bash
+git clone https://github.com/OpenClassrooms-Student-Center/P6JS.git
+cd P6JS
+npm install
+npm start
+```
 
-Install the dependencies:
+The API runs on `http://localhost:8000`.
+
+### 2. Start the front end
+
+In a second terminal, from this project's folder:
 
 ```bash
 npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The app is available on `http://localhost:5173`.
 
-## Building for Production
+## Demo accounts
 
-Create a production build:
+| Username | Password |
+|---|---|
+| `sophiemartin` | `password123` |
+| `emmaleroy` | `password789` |
+| `marcdubois` | `password456` |
 
-```bash
-npm run build
+## Mock mode
+
+To run the app without the back end, set `USE_MOCK` to `true` in `app/services/api.ts`:
+
+```ts
+const USE_MOCK = true;
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+In mock mode, the last names show "(Mock)". Log in again after switching mode.
